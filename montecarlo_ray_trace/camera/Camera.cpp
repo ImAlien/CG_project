@@ -55,8 +55,8 @@ void Camera::bedroomCamera() {
 		glm::vec3(2.699, 1.195, 2.645),
 		glm::vec3(-0.013, 1.000, -0.011),
 		39.4305,
-		320,
-		180
+		1280,
+		720
 	);
 }
 
@@ -78,8 +78,8 @@ void Camera::veachmisCamera() {
 		glm::vec3(0.0, 1.69521, 14.0476),
 		glm::vec3(0.0, 0.952421, -0.304787),
 		27.3909,
-		300,
-		225
+		1200,
+		900
 	);
 }
 void Camera::defaultCamera() {

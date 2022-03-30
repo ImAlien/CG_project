@@ -4,8 +4,8 @@
 
 using namespace std;
 using namespace glm;
-IntersectResult Triangle::intersect(Ray& ray) {
-	IntersectResult res;
+shared_ptr<IntersectResult> Triangle::intersect(Ray& ray) {
+	shared_ptr<IntersectResult> res(new IntersectResult());
 
 	vec3& O = ray.startPoint;        // 射线起点
 	vec3& D = ray.direction;         // 射线方向
@@ -47,11 +47,13 @@ IntersectResult Triangle::intersect(Ray& ray) {
 	float b1 = dot(S1, S) / deno;
 	float b2 = dot(S2, D) / deno;
 	if (t > EPSILON && b1 >= 0 && b2 >= 0 && (1 - b1 - b2) >= 0) {
-		res.distance = t;
-		res.intersectPoint = O + t * D;
-		res.triangle = this;
-		res.isIntersect = true;
-		return res;
+		res->distance = t;
+		res->intersectPoint = O + t * D;
+		res->triangle = this;
+		res->isIntersect = true;
+		res->alpha = 1 - b1 - b2;
+		res->beta = b1;
+		res->gama = b2;
 	}
 	return res;
 }
@@ -89,4 +91,15 @@ glm::vec3 Triangle::getTex(glm::vec3 p, Texture* texMap) {
 	u = u - floor(u);
 	v = v - floor(v);
 	return texMap->get(u, v);
+}
+
+glm::vec3 Triangle::getTex(shared_ptr<IntersectResult> hit, Texture* tex) {
+	float alpha = hit->alpha;
+	float beta = hit->beta;
+	float gama = 1 - alpha - beta;
+	float u = tex1.x * alpha + tex2.x * beta + tex3.x * gama;
+	float v = tex1.y * alpha + tex2.y * beta + tex3.y * gama;
+	u = u - floor(u);
+	v = v - floor(v);
+	return tex->get(v, u);
 }
