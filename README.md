@@ -1,6 +1,5 @@
-# CG_project
-Monte Carlo Path Trace
-ZJU CG homework
+# MentocarloRayTracing
+蒙特卡洛光线追踪渲染
 
 ### 编译环境
 
